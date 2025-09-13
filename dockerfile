@@ -1,31 +1,28 @@
-# Imagen base oficial de PHP con Apache
-FROM php:8.3-apache
+# Imagen oficial de PHP con extensiones necesarias
+FROM php:8.3-fpm
 
-# Instalar dependencias de sistema y extensiones de PHP
+# Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
-    git unzip libpq-dev libonig-dev libzip-dev zip \
-    && docker-php-ext-install pdo pdo_pgsql mbstring zip exif pcntl bcmath
+    git curl libpng-dev libonig-dev libxml2-dev zip unzip \
+    && docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
 
-# Habilitar mod_rewrite de Apache (necesario para Laravel)
-RUN a2enmod rewrite
-
-# Copiar composer
+# Instalar Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Crear directorio de la app
-WORKDIR /var/www/html
+# Establecer directorio de trabajo
+WORKDIR /var/www
 
-# Copiar código
+# Copiar archivos
 COPY . .
 
-# Instalar dependencias
+# Instalar dependencias de Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Generar cache de Laravel
-RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+# Dar permisos de escritura a storage y bootstrap
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Exponer el puerto 80
-EXPOSE 80
+# Puerto que expondrá
+EXPOSE 8000
 
-# Comando por defecto
-CMD ["apache2-foreground"]
+# Comando para arrancar Laravel con su servidor embebido
+CMD php artisan serve --host=0.0.0.0 --port=8000
