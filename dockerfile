@@ -3,7 +3,7 @@ FROM php:8.3-fpm
 
 # Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
-    git curl libpng-dev libonig-dev libxml2-dev zip unzip \
+    git curl libpng-dev libonig-dev libxml2-dev zip unzip libpq-dev \
     && docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
 
 # Instalar Composer
