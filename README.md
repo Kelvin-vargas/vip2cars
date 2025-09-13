@@ -20,3 +20,18 @@ Incluye un módulo de encuestas anónimas de satisfacción para mejorar la exper
 ---
 
 > Proyecto realizado como prueba técnica
+
+## Capturas de pantalla
+
+### PáginaS
+![Página Clientes](capturas/CUSTOMERS.png)
+
+![Página Vehículos](capturas/VEHICLES.png)
+
+### PáginaS
+![Página de creacion de clientes](capturas/CUSTOMER-CREATE.png)
+
+![Página de creacion de vehículos](capturas/VEHICLE-CREATE.png)
+
+### Modal de encuesta
+![Encuesta](capturas/ENCUESTA.png)
