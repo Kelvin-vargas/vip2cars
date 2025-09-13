@@ -18,8 +18,15 @@ COPY . .
 # Instalar dependencias de Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Dar permisos de escritura a storage y bootstrap
+RUN php artisan config:clear && \
+    php artisan route:clear && \
+    php artisan view:clear
+
+
+# Dar permisos a Laravel
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
 
 # Puerto que expondrá
 EXPOSE 8000
